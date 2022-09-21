@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>本地靶场</title>
+    
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    </head>
+            <body>
+
+                <style type="text/css">
+                    div{
+                        position: absolute;
+                    }
+                    #one{
+                        z-index: 9999;
+                    }
+                    #two{
+                        z-index: 1;
+                    }
+                </style>
+
+                <div id="two">
+                    <canvas id="myCanvas"></canvas>
+                    <script>
+                        const width = document.getElementById("myCanvas").width = screen.availWidth;
+                        const height = document.getElementById("myCanvas").height = screen.availHeight;
+                        const ctx = document.getElementById("myCanvas").getContext("2d");
+                        const arr = Array(Math.ceil(width / 10)).fill(0);
+                        const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+                
+                        function rain() {
+                            //这里的重点就是每次调用这个方法的时候都会重新绘制一张透明度为0.05的黑色画布来覆盖前图
+                            //所以就会形成人眼中的下雨效果
+                            ctx.fillStyle = "rgba(0,0,0,0.05)";
+                            ctx.fillRect(0, 0, width, height);
+                            ctx.fillStyle = "#7cedff";
+                            arr.forEach(function (value, index) {
+                                ctx.fillText(str[Math.floor(Math.random() * str.length)], index * 10, value + 10);
+                                arr[index] = value >= height || value > 8888 * Math.random() ? 0 : value + 10;
+                            });
+                        }
+                
+                        setInterval(rain, 30);
+                    </script>
+                </div>
+
+                <div id="one">
+                <h2 style="color: lightblue;">列表：</h2>
+
+                <a style="color: lightpink;">1.</a><a style="color: antiquewhite;" href="http://139.159.138.129/">靶场</a><br>
+                <br>
+
+                </div>
+            </body>
+</html>
